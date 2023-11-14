@@ -68,7 +68,7 @@ async function generateSignedUrl () {
       const signedUrl = getSignedUrl({
         cfClient,
         url: `${CF_ENDPOINT}/${file}`,
-        dateLessThan: new Date(Date.now() + timeout * 1000),
+        dateLessThan: timeout,
         keyPairId: CF_KEY_PAIR_ID,
         privateKey: CF_PRIVATE_KEY,
       });
