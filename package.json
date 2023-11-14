@@ -1,0 +1,15 @@
+{
+  "name": "cloudfront-signed-url-generator",
+  "version": "1.0.0",
+  "description": "Create signed URL for a S3 object through CloudFront",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.450.0",
+    "@aws-sdk/cloudfront-signer": "^3.445.0"
+  }
+}
