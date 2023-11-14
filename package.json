@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.450.0",
-    "@aws-sdk/cloudfront-signer": "^3.445.0"
+    "@aws-sdk/cloudfront-signer": "^3.445.0",
+    "dotenv": "^16.3.1"
   }
 }
