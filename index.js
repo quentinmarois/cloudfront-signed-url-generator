@@ -1,6 +1,7 @@
 const { getSignedUrl } = require("@aws-sdk/cloudfront-signer");
 const { CloudFront } = require("@aws-sdk/client-cloudfront");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+const readline = require("readline");
 require("dotenv").config();
 
 const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID;
@@ -11,9 +12,16 @@ const CF_KEY_PAIR_ID = process.env.CF_KEY_PAIR_ID;
 const CF_PRIVATE_KEY = process.env.CF_PRIVATE_KEY;
 const BUCKET_NAME = process.env.BUCKET_NAME;
 
-const file = "test.txt";
-const duration = 60 * 10; // 10 minutes
-const timeout = new Date(Date.now() + duration * 1000);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+async function promptUser (question) {
+  return new Promise((resolve) => {
+    rl.question(question, resolve);
+  });
+}
 
 async function doesFileExist (fileKey) {
   const s3 = new S3Client({
@@ -41,8 +49,14 @@ async function doesFileExist (fileKey) {
 
 async function generateSignedUrl () {
   try {
+    const file = await promptUser('Enter file name: ');
+
     const fileExist = await doesFileExist(file);
     if (fileExist) {
+
+      const duration = parseInt(await promptUser('Enter duration in seconds: '));
+      const timeout = new Date(Date.now() + duration * 1000);
+
       const cfClient = new CloudFront({
         region: REGION,
         credentials: {
@@ -64,6 +78,7 @@ async function generateSignedUrl () {
       process.exit(0);
     } else {
       console.log('File does not exist');
+      process.exit(1);
     }
   } catch (error) {
     console.error('Error generating signed URL: ', error.message || error);
