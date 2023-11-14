@@ -12,7 +12,8 @@ const CF_PRIVATE_KEY = process.env.CF_PRIVATE_KEY;
 const BUCKET_NAME = process.env.BUCKET_NAME;
 
 const file = "test.txt";
-const timeout = 60 * 10; // 10 minutes
+const duration = 60 * 10; // 10 minutes
+const timeout = new Date(Date.now() + duration * 1000);
 
 async function doesFileExist (fileKey) {
   const s3 = new S3Client({
@@ -58,8 +59,8 @@ async function generateSignedUrl () {
         privateKey: CF_PRIVATE_KEY,
       });
 
-      console.log('Signed URL: ', signedUrl);
-
+      console.log('Signed URL: ', signedUrl, '\n');
+      console.log('Expires in ', duration, ' seconds at ', timeout)
       process.exit(0);
     } else {
       console.log('File does not exist');
