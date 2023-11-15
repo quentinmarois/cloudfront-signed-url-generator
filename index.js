@@ -86,3 +86,5 @@ async function generateSignedUrl () {
 }
 
 generateSignedUrl();
+
+module.exports = { doesFileExist };
