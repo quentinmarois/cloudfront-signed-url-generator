@@ -24,6 +24,10 @@ async function promptUser (question) {
 }
 
 async function doesFileExist (fileKey) {
+  if (fileKey.endsWith('/')) {
+    return false;
+  }
+
   const s3 = new S3Client({
     region: REGION,
     credentials: {
